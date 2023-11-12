@@ -11,7 +11,7 @@ userList.addEventListener('click', editUser);
 
 //accessing userData stored in crudcrud ad=nd displaying it
 window.addEventListener('DOMContentLoaded', () => {
-    axios.get('https://crudcrud.com/api/a8c6437a7fb747f380dd4e4dbb13edba/appointmentData')
+    axios.get('https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointment')
         .then((response) => {
             const users = response.data;
             for (var i = 0; i < users.length; i++) {
@@ -90,14 +90,15 @@ function addUser(e) {
         }
 
         //storing userData in crudcrud using AXIOS
-        axios.post('https://crudcrud.com/api/a8c6437a7fb747f380dd4e4dbb13edba/appointmentData', userData)
-            .then((response) => console.log(response.data._id))
+        axios.post('https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointmentData', userData)
+            .then((response) => {
+                li.appendChild(document.createTextNode(`- ${response.data._id}`));
+            })
             .catch((error) => console.log(error))
 
         inputName.value = '';
         inputEmail.value = '';
         inputPhone.value = '';
-
     }
 }
 
@@ -107,8 +108,12 @@ function removeUser(e) {
             //spliting li text, returns an array
             console.log(e.target.parentElement.innerText);
             partsString = e.target.parentElement.innerText.split('-');
-            email_add = partsString[1].trim();
+            user_id = partsString[3].trim();
             userList.removeChild(e.target.parentElement);
+
+            axios.delete(`https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointmentData/${user_id}`)
+                .then((response) => console.log(response.data._id))
+                .catch((err) => console.log(err))
         }
     }
 }
