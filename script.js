@@ -11,7 +11,7 @@ userList.addEventListener('click', editUser);
 
 //accessing userData stored in crudcrud ad=nd displaying it
 window.addEventListener('DOMContentLoaded', () => {
-    axios.get('https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointment')
+    axios.get('https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointmentData')
         .then((response) => {
             const users = response.data;
             for (var i = 0; i < users.length; i++) {
