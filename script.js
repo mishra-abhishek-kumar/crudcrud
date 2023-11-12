@@ -9,6 +9,46 @@ form.addEventListener('submit', addUser);
 userList.addEventListener('click', removeUser);
 userList.addEventListener('click', editUser);
 
+//accessing userData stored in crudcrud ad=nd displaying it
+window.addEventListener('DOMContentLoaded', () => {
+    axios.get('https://crudcrud.com/api/a8c6437a7fb747f380dd4e4dbb13edba/appointmentData')
+        .then((response) => {
+            const users = response.data;
+            for (var i = 0; i < users.length; i++) {
+                const singleUser = users[i];
+                displayUserFromCrudCrud(singleUser);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
+function displayUserFromCrudCrud(user) {
+    //Creating different elements to be added in DOM
+    const li = document.createElement('li');
+    const delBtn = document.createElement('input');
+    const editBtn = document.createElement('input');
+
+    //Creating Delete button
+    delBtn.className = 'del float-right';
+    delBtn.setAttribute('type', "button");
+    delBtn.setAttribute('value', "DELETE");
+
+    //Creating Edit button
+    editBtn.className = 'edit float-right';
+    editBtn.setAttribute('type', "button");
+    editBtn.setAttribute('value', "EDIT");
+
+    //Appending all above 3 elements
+    li.appendChild(document.createTextNode(`${user.userName} - ${user.userEmail} - ${user.userPhone}`));
+    li.appendChild(delBtn);
+    li.appendChild(editBtn);
+
+    //appendimg the li to ul inside DOM
+    userList.appendChild(li);
+}
+
 function addUser(e) {
     e.preventDefault();
 
@@ -50,7 +90,7 @@ function addUser(e) {
         }
 
         //storing userData in crudcrud using AXIOS
-        axios.post('https://crudcrud.com/api/038489098a13442a85056901156d4c8d/appointmentData', userData)
+        axios.post('https://crudcrud.com/api/a8c6437a7fb747f380dd4e4dbb13edba/appointmentData', userData)
             .then((response) => console.log(response.data._id))
             .catch((error) => console.log(error))
 
@@ -69,7 +109,6 @@ function removeUser(e) {
             partsString = e.target.parentElement.innerText.split('-');
             email_add = partsString[1].trim();
             userList.removeChild(e.target.parentElement);
-            localStorage.removeItem(email_add);
         }
     }
 }
@@ -81,7 +120,6 @@ function editUser(e) {
             inputName.value = partsString[0].trim();
             inputEmail.value = partsString[1].trim();
             inputPhone.value = partsString[2].trim();
-            localStorage.removeItem(partsString[1].trim());
             userList.removeChild(e.target.parentElement);
         }
     }
