@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Registration Form</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registration Form</h1>
+        <div class="msg"></div>
+        <form id="form" class="my-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" autocomplete="off">
+
+            <label for="email">E-mail:</label>
+            <input type="text" id="email" autocomplete="off">
+
+            <label for="phone">Phone no.:</label>
+            <input type="text" id="phone" autocomplete="off">
+
+            <input type="submit" value="SUBMIT" id="btn">
+        </form>
+    </div>
+    <ul class="list" id="users"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.1/axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
