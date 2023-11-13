@@ -11,7 +11,7 @@ userList.addEventListener('click', editUser);
 
 //accessing userData stored in crudcrud ad=nd displaying it
 window.addEventListener('DOMContentLoaded', () => {
-    axios.get('https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointmentData')
+    axios.get('https://crudcrud.com/api/3965e6dd99c64d7596b5bbc689f93bab/appointmentData')
         .then((response) => {
             const users = response.data;
             for (var i = 0; i < users.length; i++) {
@@ -41,7 +41,7 @@ function displayUserFromCrudCrud(user) {
     editBtn.setAttribute('value', "EDIT");
 
     //Appending all above 3 elements
-    li.appendChild(document.createTextNode(`${user.userName} - ${user.userEmail} - ${user.userPhone}`));
+    li.appendChild(document.createTextNode(`${user.userName} - ${user.userEmail} - ${user.userPhone} - ${user._id}`));
     li.appendChild(delBtn);
     li.appendChild(editBtn);
 
@@ -89,10 +89,13 @@ function addUser(e) {
             userPhone: `${inputPhone.value}`
         }
 
+
+
         //storing userData in crudcrud using AXIOS
-        axios.post('https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointmentData', userData)
+        axios.post('https://crudcrud.com/api/3965e6dd99c64d7596b5bbc689f93bab/appointmentData', userData)
             .then((response) => {
                 li.appendChild(document.createTextNode(`- ${response.data._id}`));
+                console.log("User created with ID: ", response.data._id);
             })
             .catch((error) => console.log(error))
 
@@ -106,13 +109,13 @@ function removeUser(e) {
     if (e.target.classList.contains('del')) {
         if (confirm('Are you sure!')) {
             //spliting li text, returns an array
-            console.log(e.target.parentElement.innerText);
+            // console.log(e.target.parentElement.innerText);
             partsString = e.target.parentElement.innerText.split('-');
             user_id = partsString[3].trim();
             userList.removeChild(e.target.parentElement);
 
-            axios.delete(`https://crudcrud.com/api/72b44608cb724ddf91c0e0e3bacf4010/appointmentData/${user_id}`)
-                .then((response) => console.log(response.data._id))
+            axios.delete(`https://crudcrud.com/api/3965e6dd99c64d7596b5bbc689f93bab/appointmentData/${user_id}`)
+                .then((response) => console.log('User Deleted with user ID: ', user_id))
                 .catch((err) => console.log(err))
         }
     }
@@ -125,7 +128,13 @@ function editUser(e) {
             inputName.value = partsString[0].trim();
             inputEmail.value = partsString[1].trim();
             inputPhone.value = partsString[2].trim();
+            user_id = partsString[3].trim();
+            console.log('Editing the user with ID: ', user_id);
             userList.removeChild(e.target.parentElement);
+
+            axios.delete(`https://crudcrud.com/api/3965e6dd99c64d7596b5bbc689f93bab/appointmentData/${user_id}`)
+                .then((response) => console.log('User Deleted with user ID: ', user_id))
+                .catch((err) => console.log(err))
         }
     }
 }
